@@ -4,7 +4,7 @@
  */
 package Conexion;
 
-import com.mongodb.MongoClient;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import java.util.logging.Level;
@@ -31,7 +31,7 @@ public class Conexion {
             Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
             mongoLogger.setLevel(Level.SEVERE);
             
-            this.mongoClient = (MongoClient) MongoClients.create(CONNECTION_STRING);
+            this.mongoClient = MongoClients.create(CONNECTION_STRING);
             this.database = mongoClient.getDatabase(DATABASE_NAME);
             System.out.println("Conexión exitosa a la base de datos: " + DATABASE_NAME);
         } catch (Exception e) {
