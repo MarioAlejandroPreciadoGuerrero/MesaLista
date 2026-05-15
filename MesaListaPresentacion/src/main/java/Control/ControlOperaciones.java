@@ -86,6 +86,10 @@ public class ControlOperaciones {
     public List<RestauranteDTO> obtenerTodosLosRestaurantes() {
         return restaurantesFacade.obtenerTodosLosRestaurantes();
     }
+    
+    public List<ReservacionDTO> obtenerHistorialReservaciones(String usuarioId) {
+        return reservacionesFacade.obtenerHistorialUsuario(usuarioId);
+    }
 
     /**
      * Este es el mejor ejemplo del poder de un controlador: Toma los datos,

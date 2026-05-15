@@ -36,6 +36,19 @@ public class ReservacionRepository {
         return mapper.toDto(dao.buscarPorId(new ObjectId(id)));
     }
 
+    public java.util.List<ReservacionDTO> buscarPorUsuario(String usuarioId) {
+        java.util.List<ReservacionDTO> dtos = new java.util.ArrayList<>();
+        if (usuarioId == null || usuarioId.isEmpty()) return dtos;
+        
+        java.util.List<org.bson.Document> docs = dao.buscarPorUsuario(new org.bson.types.ObjectId(usuarioId));
+        if (docs != null) {
+            for (org.bson.Document doc : docs) {
+                dtos.add(mapper.toDto(doc));
+            }
+        }
+        return dtos;
+    }
+    
     public ReservacionDTO buscarPorFolio(String folio) {
         if (folio == null || folio.isEmpty()) return null;
         return mapper.toDto(dao.buscarPorFolio(folio));

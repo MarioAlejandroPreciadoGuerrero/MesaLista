@@ -35,8 +35,17 @@ public class ListaRestaurantes extends JFrame {
         header.setBackground(NARANJA);
         header.setBorder(BorderFactory.createEmptyBorder(12, 24, 12, 24));
 
-        JPanel izq = new JPanel(new FlowLayout(FlowLayout.LEFT, 14, 0));
-        izq.setOpaque(false);
+        JPanel body = new JPanel();
+        body.setLayout(new BoxLayout(body, BoxLayout.Y_AXIS));
+        body.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        
+        JButton btnVerHistorial = new JButton("Ver Mis Reservaciones");
+        btnVerHistorial.setBackground(new Color(102, 153, 255));
+        btnVerHistorial.setForeground(Color.WHITE);
+        btnVerHistorial.addActionListener(e -> new Utils.Navegador().ir(this, new Pantallas.HistorialReservaciones(usuarioId)));
+        
+        
+        header.add(btnVerHistorial);
 
         // Avatar circular
         JPanel avatar = new JPanel() {
