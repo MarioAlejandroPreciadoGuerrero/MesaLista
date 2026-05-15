@@ -4,6 +4,7 @@
  */
 package Entidades;
 
+import Builder.ReservacionBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.bson.types.ObjectId;
@@ -23,6 +24,14 @@ public class Reservacion {
     private ObjectId restauranteId;
     private String areaNombre;
     private List<Integer> numerosMesa;
+
+    /**
+     * Método estático para iniciar la construcción de una Reservacion utilizando el patrón Builder.
+     * @return ReservacionBuilder
+     */
+    public static ReservacionBuilder builder() {
+        return new ReservacionBuilder();
+    }
 
     /**
      * Constructor vacío requerido.
