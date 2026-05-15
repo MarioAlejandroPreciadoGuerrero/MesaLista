@@ -41,4 +41,11 @@ public interface IReservacionesFacade {
      */
     void cancelarReservacion(String id);
 
+    /**
+     * Obtiene todas las reservaciones realizadas por un usuario específico.
+     * @param usuarioId ID del usuario en formato String.
+     * @return Lista de DTOs de reservaciones.
+     */ 
+    java.util.List<ReservacionDTO> obtenerHistorialUsuario(String usuarioId); 
+    
 }

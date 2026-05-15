@@ -29,7 +29,7 @@ public class ReservacionDAO implements IDAO<Document, ObjectId> {
             collection.insertOne(documento);
         }
     }
-
+ 
     @Override
     public Document buscarPorId(ObjectId id) {
         if (id == null) {
@@ -37,6 +37,14 @@ public class ReservacionDAO implements IDAO<Document, ObjectId> {
         }
         return collection.find(Filters.eq("_id", id)).first();
     }
+    
+    public java.util.List<Document> buscarPorUsuario(ObjectId usuarioId) {
+        java.util.List<Document> lista = new java.util.ArrayList<>();
+        if (usuarioId != null) {
+            collection.find(Filters.eq("usuarioId", usuarioId)).into(lista);
+        }
+        return lista;
+    } 
 
     public Document buscarPorFolio(String folio) {
         if (folio == null || folio.isEmpty()) {

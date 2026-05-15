@@ -43,4 +43,10 @@ public class ReservacionesFacade implements IReservacionesFacade {
     public void cancelarReservacion(String id) {
         if (id != null && !id.isEmpty()) repository.eliminar(id);
     }
+    
+    @Override
+    public java.util.List<ReservacionDTO> obtenerHistorialUsuario(String usuarioId) {
+        if (usuarioId == null || usuarioId.isEmpty()) return new java.util.ArrayList<>();
+        return repository.buscarPorUsuario(usuarioId);
+    }
 }
