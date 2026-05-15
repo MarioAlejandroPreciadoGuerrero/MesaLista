@@ -8,6 +8,8 @@ import Conexion.Conexion;
 import Interface.IDAO;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import java.util.ArrayList;
+import java.util.List;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -36,6 +38,12 @@ public class RestauranteDAO implements IDAO<Document, ObjectId> {
             return null;
         }
         return collection.find(Filters.eq("_id", id)).first();
+    }
+
+    public List<Document> obtenerTodos() {
+        List<Document> lista = new ArrayList<>();
+        collection.find().into(lista);
+        return lista;
     }
 
     @Override

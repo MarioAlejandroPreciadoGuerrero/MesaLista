@@ -7,6 +7,8 @@ package Repository;
 import DAOs.RestauranteDAO;
 import DTO.RestauranteDTO;
 import Mapper.RestauranteMapper;
+import java.util.ArrayList;
+import java.util.List;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -38,6 +40,17 @@ public class RestauranteRepository {
             return null;
         }
         return mapper.toDto(dao.buscarPorId(new ObjectId(id)));
+    }
+
+    public List<RestauranteDTO> obtenerTodos() {
+        List<Document> documentos = dao.obtenerTodos();
+        List<RestauranteDTO> dtos = new ArrayList<>();
+        if (documentos != null) {
+            for (Document doc : documentos) {
+                dtos.add(mapper.toDto(doc));
+            }
+        }
+        return dtos;
     }
 
     public void actualizar(RestauranteDTO dto) {

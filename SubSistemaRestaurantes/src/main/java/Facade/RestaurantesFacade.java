@@ -7,6 +7,7 @@ package Facade;
 import DTO.RestauranteDTO;
 import Interface.IRestaurantesFacade;
 import Repository.RestauranteRepository;
+import java.util.List;
 
 /**
  *
@@ -33,6 +34,11 @@ public class RestaurantesFacade implements IRestaurantesFacade {
             return null;
         }
         return repository.buscarPorId(id);
+    }
+
+    @Override
+    public List<RestauranteDTO> obtenerTodosLosRestaurantes() {
+        return repository.obtenerTodos();
     }
 
     @Override
