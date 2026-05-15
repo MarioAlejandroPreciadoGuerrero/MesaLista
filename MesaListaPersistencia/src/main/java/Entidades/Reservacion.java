@@ -26,7 +26,9 @@ public class Reservacion {
     private List<Integer> numerosMesa;
 
     /**
-     * Método estático para iniciar la construcción de una Reservacion utilizando el patrón Builder.
+     * Método estático para iniciar la construcción de una Reservacion
+     * utilizando el patrón Builder.
+     *
      * @return ReservacionBuilder
      */
     public static ReservacionBuilder builder() {
@@ -41,6 +43,7 @@ public class Reservacion {
 
     /**
      * Constructor con todos los atributos requeridos.
+     *
      * * @param id El identificador único de Mongo
      * @param numPersonas Cantidad de personas
      * @param folio Código identificador para el cliente
@@ -51,9 +54,9 @@ public class Reservacion {
      * @param areaNombre Nombre del área asignada
      * @param numerosMesa Lista de números de las mesas reservadas
      */
-    public Reservacion(ObjectId id, Integer numPersonas, String folio, Double costo, 
-                       LocalDateTime fechaHora, ObjectId usuarioId, ObjectId restauranteId, 
-                       String areaNombre, List<Integer> numerosMesa) {
+    public Reservacion(ObjectId id, Integer numPersonas, String folio, Double costo,
+            LocalDateTime fechaHora, ObjectId usuarioId, ObjectId restauranteId,
+            String areaNombre, List<Integer> numerosMesa) {
         this.id = id;
         this.numPersonas = numPersonas;
         this.folio = folio;
@@ -65,22 +68,75 @@ public class Reservacion {
         this.numerosMesa = numerosMesa;
     }
 
-    public ObjectId getId() { return id; }
-    public void setId(ObjectId id) { this.id = id; }
-    public Integer getNumPersonas() { return numPersonas; }
-    public void setNumPersonas(Integer numPersonas) { this.numPersonas = numPersonas; }
-    public String getFolio() { return folio; }
-    public void setFolio(String folio) { this.folio = folio; }
-    public Double getCosto() { return costo; }
-    public void setCosto(Double costo) { this.costo = costo; }
-    public LocalDateTime getFechaHora() { return fechaHora; }
-    public void setFechaHora(LocalDateTime fechaHora) { this.fechaHora = fechaHora; }
-    public ObjectId getUsuarioId() { return usuarioId; }
-    public void setUsuarioId(ObjectId usuarioId) { this.usuarioId = usuarioId; }
-    public ObjectId getRestauranteId() { return restauranteId; }
-    public void setRestauranteId(ObjectId restauranteId) { this.restauranteId = restauranteId; }
-    public String getAreaNombre() { return areaNombre; }
-    public void setAreaNombre(String areaNombre) { this.areaNombre = areaNombre; }
-    public List<Integer> getNumerosMesa() { return numerosMesa; }
-    public void setNumerosMesa(List<Integer> numerosMesa) { this.numerosMesa = numerosMesa; }
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    public Integer getNumPersonas() {
+        return numPersonas;
+    }
+
+    public void setNumPersonas(Integer numPersonas) {
+        this.numPersonas = numPersonas;
+    }
+
+    public String getFolio() {
+        return folio;
+    }
+
+    public void setFolio(String folio) {
+        this.folio = folio;
+    }
+
+    public Double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(Double costo) {
+        this.costo = costo;
+    }
+
+    public LocalDateTime getFechaHora() {
+        return fechaHora;
+    }
+
+    public void setFechaHora(LocalDateTime fechaHora) {
+        this.fechaHora = fechaHora;
+    }
+
+    public ObjectId getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(ObjectId usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public ObjectId getRestauranteId() {
+        return restauranteId;
+    }
+
+    public void setRestauranteId(ObjectId restauranteId) {
+        this.restauranteId = restauranteId;
+    }
+
+    public String getAreaNombre() {
+        return areaNombre;
+    }
+
+    public void setAreaNombre(String areaNombre) {
+        this.areaNombre = areaNombre;
+    }
+
+    public List<Integer> getNumerosMesa() {
+        return numerosMesa;
+    }
+
+    public void setNumerosMesa(List<Integer> numerosMesa) {
+        this.numerosMesa = numerosMesa;
+    }
 }

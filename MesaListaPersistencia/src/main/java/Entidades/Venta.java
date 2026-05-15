@@ -16,22 +16,56 @@ public class Venta {
     private Double montoTotal;
     private ObjectId reservacionId;
     private ObjectId usuarioId;
+    private String transaccionExternaId; // Nuevo campo
 
-    public Venta() {}
+    public Venta() {
+    }
 
-    public Venta(ObjectId id, Double montoTotal, ObjectId reservacionId, ObjectId usuarioId) {
+    public Venta(ObjectId id, Double montoTotal, ObjectId reservacionId, ObjectId usuarioId, String transaccionExternaId) {
         this.id = id;
         this.montoTotal = montoTotal;
         this.reservacionId = reservacionId;
         this.usuarioId = usuarioId;
+        this.transaccionExternaId = transaccionExternaId;
     }
 
-    public ObjectId getId() { return id; }
-    public void setId(ObjectId id) { this.id = id; }
-    public Double getMontoTotal() { return montoTotal; }
-    public void setMontoTotal(Double montoTotal) { this.montoTotal = montoTotal; }
-    public ObjectId getReservacionId() { return reservacionId; }
-    public void setReservacionId(ObjectId reservacionId) { this.reservacionId = reservacionId; }
-    public ObjectId getUsuarioId() { return usuarioId; }
-    public void setUsuarioId(ObjectId usuarioId) { this.usuarioId = usuarioId; }
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    public Double getMontoTotal() {
+        return montoTotal;
+    }
+
+    public void setMontoTotal(Double montoTotal) {
+        this.montoTotal = montoTotal;
+    }
+
+    public ObjectId getReservacionId() {
+        return reservacionId;
+    }
+
+    public void setReservacionId(ObjectId reservacionId) {
+        this.reservacionId = reservacionId;
+    }
+
+    public ObjectId getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(ObjectId usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public String getTransaccionExternaId() {
+        return transaccionExternaId;
+    }
+
+    public void setTransaccionExternaId(String transaccionExternaId) {
+        this.transaccionExternaId = transaccionExternaId;
+    }
 }

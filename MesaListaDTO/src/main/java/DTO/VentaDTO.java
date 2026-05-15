@@ -14,15 +14,17 @@ public class VentaDTO {
     private Double montoTotal;
     private String reservacionId;
     private String usuarioId;
+    private String transaccionExternaId; 
 
     public VentaDTO() {
     }
 
-    public VentaDTO(String id, Double montoTotal, String reservacionId, String usuarioId) {
+    public VentaDTO(String id, Double montoTotal, String reservacionId, String usuarioId, String transaccionExternaId) {
         this.id = id;
         this.montoTotal = montoTotal;
         this.reservacionId = reservacionId;
         this.usuarioId = usuarioId;
+        this.transaccionExternaId = transaccionExternaId;
     }
 
     public String getId() {
@@ -55,5 +57,13 @@ public class VentaDTO {
 
     public void setUsuarioId(String usuarioId) {
         this.usuarioId = usuarioId;
+    }
+
+    public String getTransaccionExternaId() {
+        return transaccionExternaId;
+    }
+
+    public void setTransaccionExternaId(String transaccionExternaId) {
+        this.transaccionExternaId = transaccionExternaId;
     }
 }

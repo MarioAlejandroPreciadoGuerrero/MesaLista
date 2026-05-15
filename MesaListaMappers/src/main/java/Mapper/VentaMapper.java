@@ -20,7 +20,8 @@ public class VentaMapper implements IMapper<VentaDTO> {
         if (dto == null) {
             return null;
         }
-        Document doc = new Document("montoTotal", dto.getMontoTotal());
+        Document doc = new Document("montoTotal", dto.getMontoTotal())
+                .append("transaccionExternaId", dto.getTransaccionExternaId()); // Mapeamos el nuevo campo
         if (dto.getId() != null) {
             doc.append("_id", new ObjectId(dto.getId()));
         }
@@ -42,7 +43,8 @@ public class VentaMapper implements IMapper<VentaDTO> {
                 doc.getObjectId("_id") != null ? doc.getObjectId("_id").toHexString() : null,
                 doc.getDouble("montoTotal"),
                 doc.getObjectId("reservacionId") != null ? doc.getObjectId("reservacionId").toHexString() : null,
-                doc.getObjectId("usuarioId") != null ? doc.getObjectId("usuarioId").toHexString() : null
+                doc.getObjectId("usuarioId") != null ? doc.getObjectId("usuarioId").toHexString() : null,
+                doc.getString("transaccionExternaId") // Recuperamos el nuevo campo
         );
     }
 }
