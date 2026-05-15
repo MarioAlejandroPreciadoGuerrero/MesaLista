@@ -2,37 +2,36 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Entidades;
+package DTO;
 
 import java.time.LocalDate;
-import org.bson.types.ObjectId;
 
 /**
  *
  * @author USER
  */
-public class Usuario {
+public class UsuarioDTO {
 
-    private ObjectId id;
+    private String id;
     private String nombre;
     private LocalDate fechaNacimiento;
     private String email;
 
-    public Usuario() {
+    public UsuarioDTO() {
     }
 
-    public Usuario(ObjectId id, String nombre, LocalDate fechaNacimiento, String email) {
+    public UsuarioDTO(String id, String nombre, LocalDate fechaNacimiento, String email) {
         this.id = id;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
         this.email = email;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 

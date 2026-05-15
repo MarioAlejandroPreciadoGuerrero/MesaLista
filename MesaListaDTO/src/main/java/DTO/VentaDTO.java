@@ -2,26 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Entidades;
-
-import org.bson.types.ObjectId;
+package DTO;
 
 /**
  *
  * @author USER
  */
-public class Venta {
+public class VentaDTO {
 
-    private ObjectId id;
+    private String id;
     private Double montoTotal;
-    private ObjectId reservacionId;
-    private ObjectId usuarioId;
-    private String transaccionExternaId; // Nuevo campo
+    private String reservacionId;
+    private String usuarioId;
+    private String transaccionExternaId; 
 
-    public Venta() {
+    public VentaDTO() {
     }
 
-    public Venta(ObjectId id, Double montoTotal, ObjectId reservacionId, ObjectId usuarioId, String transaccionExternaId) {
+    public VentaDTO(String id, Double montoTotal, String reservacionId, String usuarioId, String transaccionExternaId) {
         this.id = id;
         this.montoTotal = montoTotal;
         this.reservacionId = reservacionId;
@@ -29,11 +27,11 @@ public class Venta {
         this.transaccionExternaId = transaccionExternaId;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -45,19 +43,19 @@ public class Venta {
         this.montoTotal = montoTotal;
     }
 
-    public ObjectId getReservacionId() {
+    public String getReservacionId() {
         return reservacionId;
     }
 
-    public void setReservacionId(ObjectId reservacionId) {
+    public void setReservacionId(String reservacionId) {
         this.reservacionId = reservacionId;
     }
 
-    public ObjectId getUsuarioId() {
+    public String getUsuarioId() {
         return usuarioId;
     }
 
-    public void setUsuarioId(ObjectId usuarioId) {
+    public void setUsuarioId(String usuarioId) {
         this.usuarioId = usuarioId;
     }
 

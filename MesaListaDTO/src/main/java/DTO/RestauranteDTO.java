@@ -2,27 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Entidades;
+package DTO;
 
 import java.util.List;
-import org.bson.types.ObjectId;
 
 /**
  *
  * @author USER
  */
-public class Restaurante {
+public class RestauranteDTO {
 
-    private ObjectId id;
+    private String id;
     private String nombre;
     private Integer capacidadTotal;
-    private List<Area> areas;
-    private Menu menu;
+    private List<AreaDTO> areas;
+    private MenuDTO menu;
 
-    public Restaurante() {
+    public RestauranteDTO() {
     }
 
-    public Restaurante(ObjectId id, String nombre, Integer capacidadTotal, List<Area> areas, Menu menu) {
+    public RestauranteDTO(String id, String nombre, Integer capacidadTotal, List<AreaDTO> areas, MenuDTO menu) {
         this.id = id;
         this.nombre = nombre;
         this.capacidadTotal = capacidadTotal;
@@ -30,11 +29,11 @@ public class Restaurante {
         this.menu = menu;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -54,19 +53,19 @@ public class Restaurante {
         this.capacidadTotal = capacidadTotal;
     }
 
-    public List<Area> getAreas() {
+    public List<AreaDTO> getAreas() {
         return areas;
     }
 
-    public void setAreas(List<Area> areas) {
+    public void setAreas(List<AreaDTO> areas) {
         this.areas = areas;
     }
 
-    public Menu getMenu() {
+    public MenuDTO getMenu() {
         return menu;
     }
 
-    public void setMenu(Menu menu) {
+    public void setMenu(MenuDTO menu) {
         this.menu = menu;
     }
 }

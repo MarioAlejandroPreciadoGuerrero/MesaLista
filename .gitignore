@@ -1,2 +1,9 @@
 /MesaListaPersistencia/target/
-/MesaLista/MesaListaPersistencia/target/
+/MesaListaDAOs/target/
+/MesaListaMappers/target/
+/SubSistemaReservaciones/target/
+/SubSistemaPagos/target/
+/MesaListaDTO/target/
+/SubSistemaUsuario/target/
+/SubSistemaRestaurantes/target/
+/MesaListaPresentacion/target/
