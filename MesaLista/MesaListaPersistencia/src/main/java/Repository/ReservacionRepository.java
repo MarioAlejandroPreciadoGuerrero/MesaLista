@@ -78,6 +78,36 @@ public class ReservacionRepository {
     }
     
     /**
+     * Busca todas las reservaciones de un usuario por su ID.
+     * @param usuarioId ObjectId del usuario.
+     * @return Lista de reservaciones encontradas (vacía si no hay).
+     */
+    @SuppressWarnings("unchecked")
+    public List<Reservacion> buscarPorUsuarioId(ObjectId usuarioId) {
+        List<Reservacion> lista = new java.util.ArrayList<>();
+        if (usuarioId == null) return lista;
+
+        for (Document doc : collection.find(Filters.eq("usuarioId", usuarioId))) {
+            List<Integer> numerosMesaList = (List<Integer>) doc.get("numerosMesa");
+            lista.add(new Reservacion(
+                doc.getObjectId("_id"),
+                doc.getInteger("numPersonas"),
+                doc.getString("folio"),
+                doc.getDouble("costo"),
+                doc.get("fechaHora") != null
+                    ? ((java.util.Date) doc.get("fechaHora")).toInstant()
+                        .atZone(ZoneId.systemDefault()).toLocalDateTime()
+                    : null,
+                doc.getObjectId("usuarioId"),
+                doc.getObjectId("restauranteId"),
+                doc.getString("areaNombre"),
+                numerosMesaList
+            ));
+        }
+        return lista;
+    }
+
+    /**
      * Elimina una reservacion basada en su ID de Mongo.
      * * @param id ObjectId de la reservacion.
      */
