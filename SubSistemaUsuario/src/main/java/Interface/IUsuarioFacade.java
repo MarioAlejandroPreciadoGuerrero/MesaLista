@@ -26,6 +26,13 @@ public interface IUsuarioFacade {
      * @return DTO del usuario encontrado o null.
      */
     UsuarioDTO obtenerUsuario(String id);
+    
+     /**
+     * Obtiene la información de un usuario específico mediante su correo.
+     * @param email Correo electrónico del usuario.
+     * @return DTO del usuario encontrado o null.
+     */
+    UsuarioDTO obtenerUsuarioPorEmail(String email);
 
     /**
      * Actualiza los datos de un usuario existente.

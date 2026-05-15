@@ -38,6 +38,13 @@ public class UsuarioDAO implements IDAO<Document, ObjectId> {
         return collection.find(Filters.eq("_id", id)).first();
     }
 
+    public Document buscarPorEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return null;
+        }
+        return collection.find(Filters.eq("email", email)).first();
+    }
+
     @Override
     public void actualizar(ObjectId id, Document documento) {
         if (id != null && documento != null) {

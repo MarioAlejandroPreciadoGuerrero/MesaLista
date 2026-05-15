@@ -36,6 +36,14 @@ public class UsuarioFacade implements IUsuarioFacade {
     }
 
     @Override
+    public UsuarioDTO obtenerUsuarioPorEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return null;
+        }
+        return repository.buscarPorEmail(email);
+    }
+
+    @Override
     public void actualizarPerfil(UsuarioDTO usuario) {
         if (usuario != null && usuario.getId() != null) {
             repository.actualizar(usuario);
