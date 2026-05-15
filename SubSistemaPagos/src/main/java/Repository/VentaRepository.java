@@ -4,7 +4,8 @@
  */
 package Repository;
 
-import DAO.VentaDAO;
+
+import DAOs.VentaDAO;
 import DTO.VentaDTO;
 import Mapper.VentaMapper;
 import org.bson.Document;

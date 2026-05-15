@@ -4,14 +4,16 @@
  */
 package Pantallas;
 
-
-
-
-import Facade.RestaurantesFacade;
-import Interface.IRestaurantesFacade;
+import Control.ControlOperaciones;
+import DTO.RestauranteDTO;
 import Utils.Navegador;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.util.List;
 import javax.swing.*;
-import java.awt.*;
+
 
 /**
  *
@@ -19,12 +21,10 @@ import java.awt.*;
  */
 public class ListaRestaurantes extends JFrame {
 
-    private final IRestaurantesFacade restaurantesFacade;
     private final String usuarioId;
 
     public ListaRestaurantes(String usuarioId) {
         this.usuarioId = usuarioId;
-        this.restaurantesFacade = new RestaurantesFacade();
         configurarVentana();
         agregarComponentes();
     }
@@ -50,19 +50,18 @@ public class ListaRestaurantes extends JFrame {
         body.setLayout(new BoxLayout(body, BoxLayout.Y_AXIS));
         body.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // En un caso real, pedirías la lista a la Fachada. Aquí simulamos la respuesta visual.
-        String[][] restaurantesMoficados = {
-            {"ID_1", "Rincón el Asador"},
-            {"ID_2", "El Deshuesadero"},
-            {"ID_3", "Mariscos el Rey"}
-        };
+        List<RestauranteDTO> restaurantesBD = ControlOperaciones.getInstancia().obtenerTodosLosRestaurantes();
 
-        for (String[] rest : restaurantesMoficados) {
-            JButton btnRestaurante = new JButton(rest[1]);
-            btnRestaurante.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-            btnRestaurante.addActionListener(e -> new Navegador().ir(this, new SeleccionarPedido(usuarioId, rest[0], rest[1])));
-            body.add(btnRestaurante);
-            body.add(Box.createVerticalStrut(15));
+        if (restaurantesBD != null && !restaurantesBD.isEmpty()) {
+            for (RestauranteDTO rest : restaurantesBD) {
+                JButton btnRestaurante = new JButton(rest.getNombre());
+                btnRestaurante.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+                btnRestaurante.addActionListener(e -> new Navegador().ir(this, new SeleccionarPedido(usuarioId, rest.getId(), rest.getNombre())));
+                body.add(btnRestaurante);
+                body.add(Box.createVerticalStrut(15));
+            }
+        } else {
+            body.add(new JLabel("No hay restaurantes disponibles en este momento."));
         }
 
         add(new JScrollPane(body), BorderLayout.CENTER);

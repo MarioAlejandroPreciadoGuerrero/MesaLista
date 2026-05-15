@@ -28,7 +28,7 @@ public class InicioSesion extends JFrame {
     private void configurarVentana() {
         setTitle("MesaLista - Iniciar Sesión");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(350, 300); // Reduje un poco la altura al no tener contraseña
+        setSize(350, 300); 
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         setResizable(false);
@@ -43,7 +43,7 @@ public class InicioSesion extends JFrame {
         header.add(lblTitulo);
         add(header, BorderLayout.NORTH);
 
-        // Grid ajustado para tener solo el campo de email y el botón
+        
         JPanel body = new JPanel(new GridLayout(3, 1, 10, 10));
         body.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         body.setBackground(new Color(245, 245, 245));
@@ -71,7 +71,7 @@ public class InicioSesion extends JFrame {
         try {
             String email = txtEmail.getText().trim();
 
-            // Hablamos al Controlador usando solo el email
+            
             UsuarioDTO usuarioLogueado = ControlOperaciones.getInstancia().iniciarSesion(email);
 
             JOptionPane.showMessageDialog(this, "Bienvenido " + usuarioLogueado.getNombre());

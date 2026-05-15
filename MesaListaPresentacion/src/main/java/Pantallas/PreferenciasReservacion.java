@@ -6,8 +6,6 @@ package Pantallas;
 
 import Control.ControlOperaciones;
 import DTO.ReservacionDTO;
-import Facade.ReservacionesFacade;
-import Interface.IReservacionesFacade;
 import Utils.Navegador;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -35,24 +33,28 @@ import javax.swing.SpinnerDateModel;
  * @author USER
  */
 public class PreferenciasReservacion extends JFrame {
-    
+
     private final String usuarioId;
     private final String idRestauranteSeleccionado;
     private final String platilloSeleccionado;
+    private final Double precioPlatillo;
 
     private int personas = 1;
-    private final Double costoCalculado = 500.0;
+    private Double costoCalculado;
 
     private JSpinner spinnerFecha;
     private JTextField txtArea;
     private JLabel lblPersonas;
+    private JLabel lblCostoTotal;
 
-    public PreferenciasReservacion(String usuarioId, String idRestaurante, String platilloSeleccionado) {
+    public PreferenciasReservacion(String usuarioId, String idRestaurante, String platilloSeleccionado, Double precioPlatillo) {
         this.usuarioId = usuarioId;
         this.idRestauranteSeleccionado = idRestaurante;
         this.platilloSeleccionado = platilloSeleccionado;
+        this.precioPlatillo = precioPlatillo;
+        this.costoCalculado = precioPlatillo;
 
-        setTitle("Preferencias de reservación");
+        setTitle("Preferencias de reservacion");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setSize(400, 600);
@@ -67,7 +69,7 @@ public class PreferenciasReservacion extends JFrame {
         JPanel header = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 20));
         header.setBackground(new Color(255, 153, 51));
 
-        JLabel lblTitulo = new JLabel("Preferencias de reservación:");
+        JLabel lblTitulo = new JLabel("Preferencias de reservacion:");
         lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 18));
         lblTitulo.setForeground(Color.WHITE);
         header.add(lblTitulo);
@@ -81,7 +83,7 @@ public class PreferenciasReservacion extends JFrame {
         body.setBackground(new Color(245, 245, 245));
         body.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        body.add(new JLabel("Platillo seleccionado: " + platilloSeleccionado));
+        body.add(new JLabel("Platillo: " + platilloSeleccionado + " ($" + precioPlatillo + " c/u)"));
         body.add(Box.createVerticalStrut(20));
 
         body.add(new JLabel("Fecha y hora:"));
@@ -92,7 +94,7 @@ public class PreferenciasReservacion extends JFrame {
         body.add(spinnerFecha);
         body.add(Box.createVerticalStrut(20));
 
-        body.add(new JLabel("Número de personas:"));
+        body.add(new JLabel("Numero de personas:"));
         lblPersonas = new JLabel(String.valueOf(personas));
         JPanel panelPersonas = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelPersonas.setOpaque(false);
@@ -102,12 +104,12 @@ public class PreferenciasReservacion extends JFrame {
         btnMenos.addActionListener(e -> {
             if (personas > 1) {
                 personas--;
-                lblPersonas.setText(String.valueOf(personas));
+                actualizarCosto();
             }
         });
         btnMas.addActionListener(e -> {
             personas++;
-            lblPersonas.setText(String.valueOf(personas));
+            actualizarCosto();
         });
 
         panelPersonas.add(btnMenos);
@@ -116,12 +118,17 @@ public class PreferenciasReservacion extends JFrame {
         body.add(panelPersonas);
         body.add(Box.createVerticalStrut(20));
 
-        body.add(new JLabel("Área (Ej. Terraza, Interior):"));
+        body.add(new JLabel("Area (Ej. Terraza, Interior):"));
         txtArea = new JTextField();
         body.add(txtArea);
-        body.add(Box.createVerticalStrut(40));
+        body.add(Box.createVerticalStrut(20));
 
-        JButton btnConfirmar = new JButton("Confirmar reservación");
+        lblCostoTotal = new JLabel("Total a pagar: $" + costoCalculado);
+        lblCostoTotal.setFont(new Font("SansSerif", Font.BOLD, 14));
+        body.add(lblCostoTotal);
+        body.add(Box.createVerticalStrut(20));
+
+        JButton btnConfirmar = new JButton("Confirmar reservacion");
         btnConfirmar.setBackground(new Color(255, 153, 51));
         btnConfirmar.setForeground(Color.WHITE);
         btnConfirmar.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -130,6 +137,12 @@ public class PreferenciasReservacion extends JFrame {
         body.add(btnConfirmar);
 
         return body;
+    }
+
+    private void actualizarCosto() {
+        lblPersonas.setText(String.valueOf(personas));
+        costoCalculado = precioPlatillo * personas;
+        lblCostoTotal.setText("Total a pagar: $" + costoCalculado);
     }
 
     private void onConfirmarClick(ActionEvent e) {
@@ -149,7 +162,7 @@ public class PreferenciasReservacion extends JFrame {
 
             ControlOperaciones.getInstancia().procesarReservaConPago(nuevaReservacion);
 
-            JOptionPane.showMessageDialog(this, "¡Reservación confirmada exitosamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Reservacion confirmada exitosamente!", "Exito", JOptionPane.INFORMATION_MESSAGE);
 
             Navegador navegador = new Navegador();
             navegador.ir(this, new ListaRestaurantes(this.usuarioId));

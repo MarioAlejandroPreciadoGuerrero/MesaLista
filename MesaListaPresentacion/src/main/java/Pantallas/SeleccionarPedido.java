@@ -4,6 +4,9 @@
  */
 package Pantallas;
 
+import Control.ControlOperaciones;
+import DTO.PlatilloDTO;
+import DTO.RestauranteDTO;
 import Utils.Navegador;
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +30,7 @@ public class SeleccionarPedido extends JFrame {
     }
 
     private void configurarVentana() {
-        setTitle("MesaLista - Menú");
+        setTitle("MesaLista - Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 500);
         setLocationRelativeTo(null);
@@ -37,7 +40,7 @@ public class SeleccionarPedido extends JFrame {
     private void agregarComponentes() {
         JPanel header = new JPanel();
         header.setBackground(new Color(255, 153, 51));
-        JLabel lblTitulo = new JLabel("Menú de " + nombreRestaurante);
+        JLabel lblTitulo = new JLabel("Menu de " + nombreRestaurante);
         lblTitulo.setForeground(Color.WHITE);
         lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 16));
         header.add(lblTitulo);
@@ -47,24 +50,26 @@ public class SeleccionarPedido extends JFrame {
         body.setLayout(new BoxLayout(body, BoxLayout.Y_AXIS));
         body.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // En un caso real, obtendrías los platillos del RestauranteDTO mediante la Fachada
-        String[] platillos = {"Doble Smash Burger - $120", "Clásica BBQ - $110", "Pollo Crispy - $95"};
+        RestauranteDTO restauranteBD = ControlOperaciones.getInstancia().obtenerDetallesRestaurante(restauranteId);
 
-        for (String platillo : platillos) {
-            JPanel card = new JPanel(new BorderLayout());
-            card.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-            card.add(new JLabel("  " + platillo), BorderLayout.CENTER);
+        if (restauranteBD != null && restauranteBD.getMenu() != null && restauranteBD.getMenu().getListaPlatillos() != null) {
+            for (PlatilloDTO platillo : restauranteBD.getMenu().getListaPlatillos()) {
+                JPanel card = new JPanel(new BorderLayout());
+                card.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+                card.add(new JLabel("  " + platillo.getNombrePlatillo() + " - $" + platillo.getPrecio()), BorderLayout.CENTER);
 
-            JButton btnElegir = new JButton("Agregar");
-            btnElegir.addActionListener(e -> {
-                // Navegamos a las preferencias de reservación enviando el platillo seleccionado
-                new Navegador().ir(this, new PreferenciasReservacion(usuarioId, restauranteId, platillo));
-            });
-            card.add(btnElegir, BorderLayout.EAST);
+                JButton btnElegir = new JButton("Agregar");
+                btnElegir.addActionListener(e -> {
+                    new Navegador().ir(this, new PreferenciasReservacion(usuarioId, restauranteId, platillo.getNombrePlatillo(), platillo.getPrecio()));
+                });
+                card.add(btnElegir, BorderLayout.EAST);
 
-            card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-            body.add(card);
-            body.add(Box.createVerticalStrut(10));
+                card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+                body.add(card);
+                body.add(Box.createVerticalStrut(10));
+            }
+        } else {
+            body.add(new JLabel("Este restaurante no tiene platillos registrados."));
         }
 
         add(new JScrollPane(body), BorderLayout.CENTER);
