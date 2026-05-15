@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Pantallas;
 
 import DTO.UsuarioDTO;
@@ -13,66 +9,113 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 
-/**
- *
- * @author USER
- */
 public class RegistroUsuario extends JFrame {
+
+    private static final Color NARANJA = new Color(249, 115, 22);
+    private static final Color FONDO   = new Color(250, 249, 246);
 
     private JTextField txtNombre;
     private JTextField txtEmail;
-    private JTextField txtAnioNacimiento; 
+    private JTextField txtAnioNacimiento;
 
     public RegistroUsuario() {
-        configurarVentana();
-        agregarComponentes();
-    }
-
-    private void configurarVentana() {
-        setTitle("MesaLista - Registro");
+        setTitle("MesaLista - Crear Cuenta");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(350, 400);
+        setSize(460, 480);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        setResizable(false);
+
+        add(crearHeader(), BorderLayout.NORTH);
+        add(crearCuerpo(), BorderLayout.CENTER);
     }
 
-    private void agregarComponentes() {
+    private JPanel crearHeader() {
         JPanel header = new JPanel();
-        header.setBackground(new Color(255, 153, 51));
-        JLabel lblTitulo = new JLabel("Crear Cuenta");
-        lblTitulo.setForeground(Color.WHITE);
-        lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 20));
-        header.add(lblTitulo);
-        add(header, BorderLayout.NORTH);
+        header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
+        header.setBackground(NARANJA);
+        header.setBorder(BorderFactory.createEmptyBorder(24, 32, 20, 32));
 
-        JPanel body = new JPanel(new GridLayout(7, 1, 5, 5));
-        body.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
+        JLabel titulo = new JLabel("Crear Cuenta");
+        titulo.setFont(new Font("SansSerif", Font.BOLD, 22));
+        titulo.setForeground(Color.WHITE);
+        titulo.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        body.add(new JLabel("Nombre Completo:"));
-        txtNombre = new JTextField();
-        body.add(txtNombre);
+        JLabel sub = new JLabel("Únete y comienza a reservar");
+        sub.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        sub.setForeground(new Color(255, 255, 255, 210));
+        sub.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        body.add(new JLabel("Correo Electrónico:"));
-        txtEmail = new JTextField();
-        body.add(txtEmail);
+        header.add(titulo);
+        header.add(Box.createVerticalStrut(4));
+        header.add(sub);
+        return header;
+    }
 
-        body.add(new JLabel("Año de Nacimiento (YYYY):"));
-        txtAnioNacimiento = new JTextField();
-        body.add(txtAnioNacimiento);
+    private JPanel crearCuerpo() {
+        JPanel body = new JPanel();
+        body.setLayout(new BoxLayout(body, BoxLayout.Y_AXIS));
+        body.setBackground(FONDO);
+        body.setBorder(BorderFactory.createEmptyBorder(28, 48, 28, 48));
+
+        txtNombre          = crearCampo(body, "Nombre completo");
+        body.add(Box.createVerticalStrut(16));
+        txtEmail           = crearCampo(body, "Correo electrónico");
+        body.add(Box.createVerticalStrut(16));
+        txtAnioNacimiento  = crearCampo(body, "Año de nacimiento (YYYY)");
+        body.add(Box.createVerticalStrut(24));
 
         JButton btnRegistrar = new JButton("Registrarme");
-        btnRegistrar.setBackground(new Color(255, 153, 51));
+        btnRegistrar.setBackground(NARANJA);
         btnRegistrar.setForeground(Color.WHITE);
+        btnRegistrar.setOpaque(true);
+        btnRegistrar.setBorderPainted(false);
+        btnRegistrar.setFont(new Font("SansSerif", Font.BOLD, 14));
+        btnRegistrar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
+        btnRegistrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnRegistrar.setAlignmentX(Component.LEFT_ALIGNMENT);
         btnRegistrar.addActionListener(this::onRegistrarClick);
-        body.add(btnRegistrar);
 
-        add(body, BorderLayout.CENTER);
+        JSeparator sep = new JSeparator();
+        sep.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
+        sep.setForeground(new Color(229, 224, 216));
 
-        JPanel footer = new JPanel();
-        JButton btnVolver = new JButton("Volver al Login");
+        JButton btnVolver = new JButton("¿Ya tienes cuenta? Inicia sesión");
+        btnVolver.setContentAreaFilled(false);
+        btnVolver.setBorderPainted(false);
+        btnVolver.setForeground(NARANJA);
+        btnVolver.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        btnVolver.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnVolver.setAlignmentX(Component.LEFT_ALIGNMENT);
         btnVolver.addActionListener(e -> new Navegador().ir(this, new InicioSesion()));
-        footer.add(btnVolver);
-        add(footer, BorderLayout.SOUTH);
+
+        body.add(btnRegistrar);
+        body.add(Box.createVerticalStrut(16));
+        body.add(sep);
+        body.add(Box.createVerticalStrut(12));
+        body.add(btnVolver);
+        return body;
+    }
+
+    private JTextField crearCampo(JPanel parent, String etiqueta) {
+        JLabel lbl = new JLabel(etiqueta);
+        lbl.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        lbl.setForeground(new Color(80, 80, 80));
+        lbl.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JTextField field = new JTextField();
+        field.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+        field.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(209, 204, 196), 1),
+            BorderFactory.createEmptyBorder(4, 10, 4, 10)));
+        field.setBackground(Color.WHITE);
+        field.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        parent.add(lbl);
+        parent.add(Box.createVerticalStrut(5));
+        parent.add(field);
+        return field;
     }
 
     private void onRegistrarClick(ActionEvent e) {

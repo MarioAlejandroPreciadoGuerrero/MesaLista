@@ -1,35 +1,41 @@
 package Pantallas;
 
-import Control.ControlOperaciones;
-import DTO.RestauranteDTO;
-import Utils.Navegador;
+import Entidades.Restaurante;
+import Entidades.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class ListaRestaurantes extends JFrame {
+/**
+ * Pantalla 1: Lista de restaurantes disponibles.
+ * Muestra tarjetas de cada restaurante con su disponibilidad
+ * y botón para hacer una reservación.
+ */
+public class PantallaListaRestaurantes extends JFrame {
 
     private static final Color NARANJA = new Color(249, 115, 22);
     private static final Color FONDO   = new Color(250, 249, 246);
 
-    private final String usuarioId;
-    private final String nombreUsuario;
+    private final Usuario usuarioActual;
+    private final List<Restaurante> restaurantes;
 
-    public ListaRestaurantes(String usuarioId, String nombreUsuario) {
-        this.usuarioId     = usuarioId;
-        this.nombreUsuario = nombreUsuario;
+    public PantallaListaRestaurantes(Usuario usuario, List<Restaurante> restaurantes) {
+        this.usuarioActual = usuario;
+        this.restaurantes  = restaurantes;
 
         setTitle("MesaLista - Restaurantes");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+
+        add(crearHeader(), BorderLayout.NORTH);
+        add(crearContenido(), BorderLayout.CENTER);
+
         setSize(980, 560);
         setLocationRelativeTo(null);
-
-        add(crearHeader(),    BorderLayout.NORTH);
-        add(crearContenido(), BorderLayout.CENTER);
     }
 
+    // ── Header con nombre de usuario ──────────────────────────
     private JPanel crearHeader() {
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(NARANJA);
@@ -53,7 +59,7 @@ public class ListaRestaurantes extends JFrame {
         avatar.setPreferredSize(new Dimension(52, 52));
         avatar.setOpaque(false);
 
-        JLabel lblNombre = new JLabel(nombreUsuario != null ? nombreUsuario : "Usuario");
+        JLabel lblNombre = new JLabel(usuarioActual.getNombre());
         lblNombre.setFont(new Font("SansSerif", Font.BOLD, 18));
         lblNombre.setForeground(Color.WHITE);
 
@@ -67,34 +73,24 @@ public class ListaRestaurantes extends JFrame {
         btnMisRes.setFont(new Font("SansSerif", Font.PLAIN, 14));
         btnMisRes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnMisRes.addActionListener(e ->
-            JOptionPane.showMessageDialog(this, "Funcionalidad de reservaciones próximamente.")
+            Navegador.ir(new PantallaMisReservaciones(usuarioActual, restaurantes))
         );
 
-        header.add(izq,       BorderLayout.WEST);
-        header.add(btnMisRes, BorderLayout.EAST);
+        header.add(izq,        BorderLayout.WEST);
+        header.add(btnMisRes,  BorderLayout.EAST);
         return header;
     }
 
+    // ── Grid de tarjetas de restaurantes ─────────────────────
     private JScrollPane crearContenido() {
-        List<RestauranteDTO> restaurantes = ControlOperaciones.getInstancia().obtenerTodosLosRestaurantes();
-
-        int cols = (restaurantes == null || restaurantes.isEmpty()) ? 1 : Math.min(restaurantes.size(), 3);
-        int rows = (restaurantes == null || restaurantes.isEmpty()) ? 1
-            : (int) Math.ceil((double) restaurantes.size() / cols);
-
-        JPanel grid = new JPanel(new GridLayout(rows, cols, 28, 28));
+        int cols = Math.min(restaurantes.size(), 3);
+        JPanel grid = new JPanel(new GridLayout(
+            (int) Math.ceil((double) restaurantes.size() / cols), cols, 28, 28));
         grid.setBackground(FONDO);
         grid.setBorder(BorderFactory.createEmptyBorder(36, 40, 40, 40));
 
-        if (restaurantes == null || restaurantes.isEmpty()) {
-            JLabel lbl = new JLabel("No hay restaurantes disponibles.", SwingConstants.CENTER);
-            lbl.setFont(new Font("SansSerif", Font.PLAIN, 16));
-            lbl.setForeground(new Color(120, 120, 120));
-            grid.add(lbl);
-        } else {
-            for (RestauranteDTO r : restaurantes) {
-                grid.add(crearTarjeta(r));
-            }
+        for (Restaurante r : restaurantes) {
+            grid.add(crearTarjeta(r));
         }
 
         JScrollPane scroll = new JScrollPane(grid);
@@ -103,12 +99,12 @@ public class ListaRestaurantes extends JFrame {
         return scroll;
     }
 
-    private JPanel crearTarjeta(RestauranteDTO r) {
+    private JPanel crearTarjeta(Restaurante r) {
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBackground(FONDO);
 
-        // Imagen placeholder con inicial
+        // Imagen placeholder con inicial del restaurante
         JPanel imgPanel = new JPanel() {
             @Override protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
@@ -117,7 +113,7 @@ public class ListaRestaurantes extends JFrame {
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 24, 24);
                 g2.setColor(Color.WHITE);
                 g2.setFont(new Font("SansSerif", Font.BOLD, 48));
-                String letra = (r.getNombre() != null && !r.getNombre().isEmpty())
+                String letra = r.getNombre() != null && !r.getNombre().isEmpty()
                     ? String.valueOf(r.getNombre().charAt(0)).toUpperCase() : "R";
                 FontMetrics fm = g2.getFontMetrics();
                 g2.drawString(letra,
@@ -134,10 +130,10 @@ public class ListaRestaurantes extends JFrame {
         lblNombre.setFont(new Font("SansSerif", Font.PLAIN, 14));
         lblNombre.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Badge de disponibilidad según capacidad
-        int cap = r.getCapacidadTotal() != null ? r.getCapacidadTotal() : 0;
+        // Capacidad como indicador de disponibilidad
         String estadoTexto;
         Color estadoColor;
+        int cap = r.getCapacidadTotal() != null ? r.getCapacidadTotal() : 0;
         if (cap > 50) {
             estadoTexto = "Disponible";
             estadoColor = new Color(34, 197, 94);
@@ -161,7 +157,7 @@ public class ListaRestaurantes extends JFrame {
         btnRes.setFont(new Font("SansSerif", Font.PLAIN, 13));
         btnRes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnRes.addActionListener(e ->
-            new Navegador().ir(this, new SeleccionarPedido(usuarioId, nombreUsuario, r.getId(), r.getNombre()))
+            Navegador.ir(new PantallaSeleccionarPlatillo(usuarioActual, r, restaurantes))
         );
 
         acciones.add(btnRes);
