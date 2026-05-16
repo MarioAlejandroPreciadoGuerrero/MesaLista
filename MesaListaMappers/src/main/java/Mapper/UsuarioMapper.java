@@ -23,7 +23,8 @@ public class UsuarioMapper implements IMapper<UsuarioDTO> {
         }
         Document doc = new Document("nombre", dto.getNombre())
                 .append("fechaNacimiento", dto.getFechaNacimiento())
-                .append("email", dto.getEmail());
+                .append("email", dto.getEmail())
+                .append("contrasena", dto.getContrasena());
         if (dto.getId() != null) {
             doc.append("_id", new ObjectId(dto.getId()));
         }
@@ -35,11 +36,13 @@ public class UsuarioMapper implements IMapper<UsuarioDTO> {
         if (doc == null) {
             return null;
         }
-        return new UsuarioDTO(
+        UsuarioDTO dto = new UsuarioDTO(
                 doc.getObjectId("_id") != null ? doc.getObjectId("_id").toHexString() : null,
                 doc.getString("nombre"),
                 doc.getDate("fechaNacimiento") != null ? doc.getDate("fechaNacimiento").toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null,
                 doc.getString("email")
         );
+        dto.setContrasena(doc.getString("contrasena"));
+        return dto;
     }
 }

@@ -17,11 +17,12 @@ public class RegistroUsuario extends JFrame {
     private JTextField txtNombre;
     private JTextField txtEmail;
     private JTextField txtAnioNacimiento;
+    private JPasswordField txtContrasena;
 
     public RegistroUsuario() {
         setTitle("MesaLista - Crear Cuenta");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(460, 480);
+        setSize(460, 540);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         setResizable(false);
@@ -58,11 +59,28 @@ public class RegistroUsuario extends JFrame {
         body.setBackground(FONDO);
         body.setBorder(BorderFactory.createEmptyBorder(28, 48, 28, 48));
 
-        txtNombre          = crearCampo(body, "Nombre completo");
+        txtNombre         = crearCampo(body, "Nombre completo");
         body.add(Box.createVerticalStrut(16));
-        txtEmail           = crearCampo(body, "Correo electrónico");
+        txtEmail          = crearCampo(body, "Correo electrónico");
         body.add(Box.createVerticalStrut(16));
-        txtAnioNacimiento  = crearCampo(body, "Año de nacimiento (YYYY)");
+        txtAnioNacimiento = crearCampo(body, "Año de nacimiento (YYYY)");
+        body.add(Box.createVerticalStrut(16));
+
+        JLabel lblContrasena = new JLabel("Contraseña");
+        lblContrasena.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        lblContrasena.setForeground(new Color(80, 80, 80));
+        lblContrasena.setAlignmentX(Component.LEFT_ALIGNMENT);
+        txtContrasena = new JPasswordField();
+        txtContrasena.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        txtContrasena.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+        txtContrasena.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(209, 204, 196), 1),
+            BorderFactory.createEmptyBorder(4, 10, 4, 10)));
+        txtContrasena.setBackground(Color.WHITE);
+        txtContrasena.setAlignmentX(Component.LEFT_ALIGNMENT);
+        body.add(lblContrasena);
+        body.add(Box.createVerticalStrut(5));
+        body.add(txtContrasena);
         body.add(Box.createVerticalStrut(24));
 
         JButton btnRegistrar = new JButton("Registrarme");
@@ -120,9 +138,13 @@ public class RegistroUsuario extends JFrame {
 
     private void onRegistrarClick(ActionEvent e) {
         try {
+            String contrasena = new String(txtContrasena.getPassword()).trim();
+            if (contrasena.isEmpty()) throw new Exception("La contraseña es obligatoria.");
+
             UsuarioDTO nuevoUsuario = new UsuarioDTO();
             nuevoUsuario.setNombre(txtNombre.getText().trim());
             nuevoUsuario.setEmail(txtEmail.getText().trim());
+            nuevoUsuario.setContrasena(contrasena);
 
             int anio = Integer.parseInt(txtAnioNacimiento.getText().trim());
             nuevoUsuario.setFechaNacimiento(LocalDate.of(anio, 1, 1));

@@ -16,6 +16,7 @@ public class UsuarioDTO {
     private String nombre;
     private LocalDate fechaNacimiento;
     private String email;
+    private String contrasena;
 
     public UsuarioDTO() {
     }
@@ -57,5 +58,13 @@ public class UsuarioDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 }

@@ -14,11 +14,12 @@ public class InicioSesion extends JFrame {
     private static final Color FONDO   = new Color(250, 249, 246);
 
     private JTextField txtEmail;
+    private JPasswordField txtContrasena;
 
     public InicioSesion() {
         setTitle("MesaLista - Iniciar Sesión");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(460, 440);
+        setSize(460, 500);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         setResizable(false);
@@ -69,6 +70,20 @@ public class InicioSesion extends JFrame {
         txtEmail.setBackground(Color.WHITE);
         txtEmail.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+        JLabel lblContrasena = new JLabel("Contraseña");
+        lblContrasena.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        lblContrasena.setForeground(new Color(80, 80, 80));
+        lblContrasena.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        txtContrasena = new JPasswordField();
+        txtContrasena.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        txtContrasena.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+        txtContrasena.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(209, 204, 196), 1),
+            BorderFactory.createEmptyBorder(4, 10, 4, 10)));
+        txtContrasena.setBackground(Color.WHITE);
+        txtContrasena.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         JButton btnEntrar = new JButton("Ingresar");
         btnEntrar.setBackground(NARANJA);
         btnEntrar.setForeground(Color.WHITE);
@@ -96,6 +111,10 @@ public class InicioSesion extends JFrame {
         body.add(lblEmail);
         body.add(Box.createVerticalStrut(6));
         body.add(txtEmail);
+        body.add(Box.createVerticalStrut(16));
+        body.add(lblContrasena);
+        body.add(Box.createVerticalStrut(6));
+        body.add(txtContrasena);
         body.add(Box.createVerticalStrut(20));
         body.add(btnEntrar);
         body.add(Box.createVerticalStrut(18));
@@ -125,8 +144,9 @@ public class InicioSesion extends JFrame {
 
     private void onEntrarClick(ActionEvent e) {
         try {
-            String email = txtEmail.getText().trim();
-            UsuarioDTO usuario = ControlOperaciones.getInstancia().iniciarSesion(email);
+            String email      = txtEmail.getText().trim();
+            String contrasena = new String(txtContrasena.getPassword()).trim();
+            UsuarioDTO usuario = ControlOperaciones.getInstancia().iniciarSesion(email, contrasena);
             new Navegador().ir(this, new ListaRestaurantes(usuario.getId(), usuario.getNombre()));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de Acceso", JOptionPane.ERROR_MESSAGE);

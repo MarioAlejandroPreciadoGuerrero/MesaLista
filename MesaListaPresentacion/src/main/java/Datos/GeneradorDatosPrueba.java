@@ -9,8 +9,12 @@ import DTO.MenuDTO;
 import DTO.MesaDTO;
 import DTO.PlatilloDTO;
 import DTO.RestauranteDTO;
+import DTO.UsuarioDTO;
 import Facade.RestaurantesFacade;
+import Facade.UsuarioFacade;
 import Interface.IRestaurantesFacade;
+import Interface.IUsuarioFacade;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +25,16 @@ import java.util.List;
 public class GeneradorDatosPrueba {
 
     public static void inicializarDatos() {
+        IUsuarioFacade usuarioFacade = new UsuarioFacade();
+        if (usuarioFacade.obtenerUsuarioPorEmail("admin@mesalista.com") == null) {
+            UsuarioDTO admin = new UsuarioDTO();
+            admin.setNombre("Admin");
+            admin.setEmail("admin@mesalista.com");
+            admin.setContrasena("12345");
+            admin.setFechaNacimiento(LocalDate.of(2000, 1, 1));
+            usuarioFacade.registrarUsuario(admin);
+        }
+
         IRestaurantesFacade fachada = new RestaurantesFacade();
 
         List<RestauranteDTO> existentes = fachada.obtenerTodosLosRestaurantes();
