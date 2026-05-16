@@ -11,13 +11,6 @@ Sistema de reservaciones de restaurantes desarrollado en Java con interfaz gráf
 - **MongoDB Community 7.0** corriendo en `localhost:27017`
 - **MongoDB Compass** (opcional, para visualizar la base de datos)
 
-### Instalar MongoDB en Mac
-```bash
-brew tap mongodb/brew
-brew install mongodb-community@7.0
-brew services start mongodb/brew/mongodb-community@7.0
-```
-
 ### Instalar MongoDB en Windows
 Descargar el instalador desde [mongodb.com/try/download/community](https://www.mongodb.com/try/download/community) y seguir el asistente. Asegurarse de que el servicio quede corriendo.
 
