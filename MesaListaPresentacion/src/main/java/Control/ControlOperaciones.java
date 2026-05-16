@@ -67,21 +67,28 @@ public class ControlOperaciones {
         usuarioFacade.registrarUsuario(usuarioDTO);
     }
 
-    public UsuarioDTO iniciarSesion(String email, String contrasena) throws Exception {
+    public UsuarioDTO iniciarSesion(String email) throws Exception {
         if (email == null || email.isEmpty()) {
             throw new Exception("Debe ingresar su correo electrónico.");
-        }
-        if (contrasena == null || contrasena.isEmpty()) {
-            throw new Exception("Debe ingresar su contraseña.");
         }
         UsuarioDTO usuario = usuarioFacade.obtenerUsuarioPorEmail(email);
         if (usuario == null) {
             throw new Exception("No existe una cuenta registrada con ese correo.");
         }
-        if (!contrasena.equals(usuario.getContrasena())) {
-            throw new Exception("Contraseña incorrecta.");
-        }
         return usuario;
+    }
+
+    public void iniciarSesionAdmin(String usuario, String contrasena) throws Exception {
+        if (usuario == null || usuario.isEmpty()) {
+            throw new Exception("Debe ingresar su usuario.");
+        }
+        if (contrasena == null || contrasena.isEmpty()) {
+            throw new Exception("Debe ingresar su contraseña.");
+        }
+        UsuarioDTO admin = usuarioFacade.obtenerUsuarioPorEmail(usuario);
+        if (admin == null || !contrasena.equals(admin.getContrasena())) {
+            throw new Exception("Usuario o contraseña incorrectos.");
+        }
     }
 
     public RestauranteDTO obtenerDetallesRestaurante(String restauranteId) {
