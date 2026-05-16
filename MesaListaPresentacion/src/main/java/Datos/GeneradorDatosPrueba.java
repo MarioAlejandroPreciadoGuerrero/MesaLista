@@ -31,21 +31,21 @@ public class GeneradorDatosPrueba {
         UsuarioDTO adminViejo = usuarioFacade.obtenerUsuarioPorEmail("admin@mesalista.com");
         if (adminViejo != null) usuarioFacade.eliminarUsuario(adminViejo.getId());
 
-        // Crear dueños de restaurante si no existen
+        // Recrear dueños de restaurante siempre con datos correctos
         String[][] duenos = {
             {"rincon",        "Rincon el Asador",  "123"},
             {"deshuesadero",  "El Deshuesadero",   "456"},
             {"mariscos",      "Mariscos el Rey",   "789"}
         };
         for (String[] d : duenos) {
-            if (usuarioFacade.obtenerUsuarioPorEmail(d[0]) == null) {
-                UsuarioDTO dueno = new UsuarioDTO();
-                dueno.setEmail(d[0]);
-                dueno.setNombre(d[1]);
-                dueno.setContrasena(d[2]);
-                dueno.setFechaNacimiento(LocalDate.of(2000, 1, 1));
-                usuarioFacade.registrarUsuario(dueno);
-            }
+            UsuarioDTO existente = usuarioFacade.obtenerUsuarioPorEmail(d[0]);
+            if (existente != null) usuarioFacade.eliminarUsuario(existente.getId());
+            UsuarioDTO dueno = new UsuarioDTO();
+            dueno.setEmail(d[0]);
+            dueno.setNombre(d[1]);
+            dueno.setContrasena(d[2]);
+            dueno.setFechaNacimiento(LocalDate.of(2000, 1, 1));
+            usuarioFacade.registrarUsuario(dueno);
         }
 
         IRestaurantesFacade fachada = new RestaurantesFacade();
