@@ -2,6 +2,7 @@
 
 Sistema de reservaciones de restaurantes desarrollado en Java con interfaz gráfica Swing y base de datos MongoDB. Proyecto para la materia de Diseño de Software.
 
+
 ---
 
 ## Requisitos previos
