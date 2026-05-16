@@ -9,8 +9,12 @@ import DTO.MenuDTO;
 import DTO.MesaDTO;
 import DTO.PlatilloDTO;
 import DTO.RestauranteDTO;
+import DTO.UsuarioDTO;
 import Facade.RestaurantesFacade;
+import Facade.UsuarioFacade;
 import Interface.IRestaurantesFacade;
+import Interface.IUsuarioFacade;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +25,29 @@ import java.util.List;
 public class GeneradorDatosPrueba {
 
     public static void inicializarDatos() {
+        IUsuarioFacade usuarioFacade = new UsuarioFacade();
+
+        // Eliminar usuario admin anterior si existe
+        UsuarioDTO adminViejo = usuarioFacade.obtenerUsuarioPorEmail("admin@mesalista.com");
+        if (adminViejo != null) usuarioFacade.eliminarUsuario(adminViejo.getId());
+
+        // Recrear dueños de restaurante siempre con datos correctos
+        String[][] duenos = {
+            {"rincon",        "Rincon el Asador",  "123"},
+            {"deshuesadero",  "El Deshuesadero",   "456"},
+            {"mariscos",      "Mariscos el Rey",   "789"}
+        };
+        for (String[] d : duenos) {
+            UsuarioDTO existente = usuarioFacade.obtenerUsuarioPorEmail(d[0]);
+            if (existente != null) usuarioFacade.eliminarUsuario(existente.getId());
+            UsuarioDTO dueno = new UsuarioDTO();
+            dueno.setEmail(d[0]);
+            dueno.setNombre(d[1]);
+            dueno.setContrasena(d[2]);
+            dueno.setFechaNacimiento(LocalDate.of(2000, 1, 1));
+            usuarioFacade.registrarUsuario(dueno);
+        }
+
         IRestaurantesFacade fachada = new RestaurantesFacade();
 
         List<RestauranteDTO> existentes = fachada.obtenerTodosLosRestaurantes();

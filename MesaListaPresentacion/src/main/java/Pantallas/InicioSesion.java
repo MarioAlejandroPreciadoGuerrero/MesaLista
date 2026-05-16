@@ -18,7 +18,7 @@ public class InicioSesion extends JFrame {
     public InicioSesion() {
         setTitle("MesaLista - Iniciar Sesión");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(460, 380);
+        setSize(460, 440);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         setResizable(false);
@@ -102,7 +102,63 @@ public class InicioSesion extends JFrame {
         body.add(sep);
         body.add(Box.createVerticalStrut(14));
         body.add(btnRegistrar);
+
+        JSeparator sep2 = new JSeparator();
+        sep2.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
+        sep2.setForeground(new Color(229, 224, 216));
+        body.add(Box.createVerticalStrut(14));
+        body.add(sep2);
+        body.add(Box.createVerticalStrut(14));
+
+        JButton btnAdmin = new JButton("¿Dueño de restaurante? Administra aquí");
+        btnAdmin.setContentAreaFilled(false);
+        btnAdmin.setBorderPainted(false);
+        btnAdmin.setForeground(new Color(100, 100, 100));
+        btnAdmin.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        btnAdmin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnAdmin.setAlignmentX(Component.LEFT_ALIGNMENT);
+        btnAdmin.addActionListener(e -> onAdminClick());
+        body.add(btnAdmin);
+
         return body;
+    }
+
+    private void onAdminClick() {
+        JTextField txtUsuario = new JTextField();
+        JPasswordField txtPass = new JPasswordField();
+
+        JPanel panel = new JPanel(new GridLayout(2, 2, 8, 8));
+        panel.add(new JLabel("Usuario:"));
+        panel.add(txtUsuario);
+        panel.add(new JLabel("Contraseña:"));
+        panel.add(txtPass);
+
+        int result = JOptionPane.showConfirmDialog(this, panel,
+                "Acceso de Restaurante", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (result != JOptionPane.OK_OPTION) return;
+
+        try {
+            String usuario    = txtUsuario.getText().trim();
+            String contrasena = new String(txtPass.getPassword()).trim();
+            DTO.UsuarioDTO dueno = ControlOperaciones.getInstancia().iniciarSesionAdmin(usuario, contrasena);
+
+            // Buscar el restaurante cuyo nombre coincide con el del dueño
+            String nombreRestaurante = dueno.getNombre();
+            DTO.RestauranteDTO restaurante = ControlOperaciones.getInstancia()
+                .obtenerTodosLosRestaurantes().stream()
+                .filter(r -> r.getNombre().equalsIgnoreCase(nombreRestaurante))
+                .findFirst().orElse(null);
+
+            if (restaurante == null) {
+                JOptionPane.showMessageDialog(this, "No se encontró el restaurante asociado.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            new Navegador().ir(this, new PanelAdmin(restaurante.getId(), restaurante.getNombre()));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Acceso denegado", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void onEntrarClick(ActionEvent e) {

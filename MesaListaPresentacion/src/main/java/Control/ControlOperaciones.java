@@ -4,6 +4,8 @@
  */
 package Control;
 
+import DTO.AreaDTO;
+import DTO.MenuDTO;
 import DTO.ReservacionDTO;
 import DTO.RestauranteDTO;
 import DTO.UsuarioDTO;
@@ -69,14 +71,25 @@ public class ControlOperaciones {
         if (email == null || email.isEmpty()) {
             throw new Exception("Debe ingresar su correo electrónico.");
         }
-
         UsuarioDTO usuario = usuarioFacade.obtenerUsuarioPorEmail(email);
-
         if (usuario == null) {
             throw new Exception("No existe una cuenta registrada con ese correo.");
         }
-
         return usuario;
+    }
+
+    public UsuarioDTO iniciarSesionAdmin(String usuario, String contrasena) throws Exception {
+        if (usuario == null || usuario.isEmpty()) {
+            throw new Exception("Debe ingresar su usuario.");
+        }
+        if (contrasena == null || contrasena.isEmpty()) {
+            throw new Exception("Debe ingresar su contraseña.");
+        }
+        UsuarioDTO admin = usuarioFacade.obtenerUsuarioPorEmail(usuario);
+        if (admin == null || !contrasena.equals(admin.getContrasena())) {
+            throw new Exception("Usuario o contraseña incorrectos.");
+        }
+        return admin;
     }
 
     public RestauranteDTO obtenerDetallesRestaurante(String restauranteId) {
@@ -85,6 +98,20 @@ public class ControlOperaciones {
 
     public List<RestauranteDTO> obtenerTodosLosRestaurantes() {
         return restaurantesFacade.obtenerTodosLosRestaurantes();
+    }
+
+    public void actualizarAreasRestaurante(String restauranteId, List<AreaDTO> areas) throws Exception {
+        RestauranteDTO restaurante = restaurantesFacade.consultarRestaurante(restauranteId);
+        if (restaurante == null) throw new Exception("No se encontró el restaurante.");
+        restaurante.setAreas(areas);
+        restaurantesFacade.actualizarRestaurante(restaurante);
+    }
+
+    public void actualizarMenuRestaurante(String restauranteId, MenuDTO menu) throws Exception {
+        RestauranteDTO restaurante = restaurantesFacade.consultarRestaurante(restauranteId);
+        if (restaurante == null) throw new Exception("No se encontró el restaurante.");
+        restaurante.setMenu(menu);
+        restaurantesFacade.actualizarRestaurante(restaurante);
     }
     
     public List<ReservacionDTO> obtenerHistorialReservaciones(String usuarioId) {
