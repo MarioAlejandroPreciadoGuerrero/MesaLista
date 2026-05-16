@@ -78,7 +78,7 @@ public class ControlOperaciones {
         return usuario;
     }
 
-    public void iniciarSesionAdmin(String usuario, String contrasena) throws Exception {
+    public UsuarioDTO iniciarSesionAdmin(String usuario, String contrasena) throws Exception {
         if (usuario == null || usuario.isEmpty()) {
             throw new Exception("Debe ingresar su usuario.");
         }
@@ -89,6 +89,7 @@ public class ControlOperaciones {
         if (admin == null || !contrasena.equals(admin.getContrasena())) {
             throw new Exception("Usuario o contraseña incorrectos.");
         }
+        return admin;
     }
 
     public RestauranteDTO obtenerDetallesRestaurante(String restauranteId) {

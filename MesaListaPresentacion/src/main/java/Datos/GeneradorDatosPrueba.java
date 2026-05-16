@@ -33,9 +33,9 @@ public class GeneradorDatosPrueba {
 
         // Crear dueños de restaurante si no existen
         String[][] duenos = {
-            {"rincon",        "Dueño Rincón el Asador",   "123"},
-            {"deshuesadero",  "Dueño El Deshuesadero",    "456"},
-            {"mariscos",      "Dueño Mariscos el Rey",    "789"}
+            {"rincon",        "Rincon el Asador",  "123"},
+            {"deshuesadero",  "El Deshuesadero",   "456"},
+            {"mariscos",      "Mariscos el Rey",   "789"}
         };
         for (String[] d : duenos) {
             if (usuarioFacade.obtenerUsuarioPorEmail(d[0]) == null) {

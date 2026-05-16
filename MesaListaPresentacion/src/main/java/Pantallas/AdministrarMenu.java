@@ -75,7 +75,7 @@ public class AdministrarMenu extends JFrame {
         btnVolver.setContentAreaFilled(false);
         btnVolver.setFont(new Font("SansSerif", Font.PLAIN, 14));
         btnVolver.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnVolver.addActionListener(e -> new Navegador().ir(this, new SeleccionarRestauranteAdmin()));
+        btnVolver.addActionListener(e -> new Navegador().ir(this, new PanelAdmin(restauranteId, nombreRestaurante)));
 
         header.add(izq,       BorderLayout.WEST);
         header.add(btnVolver, BorderLayout.EAST);

@@ -141,8 +141,21 @@ public class InicioSesion extends JFrame {
         try {
             String usuario    = txtUsuario.getText().trim();
             String contrasena = new String(txtPass.getPassword()).trim();
-            ControlOperaciones.getInstancia().iniciarSesionAdmin(usuario, contrasena);
-            new Navegador().ir(this, new SeleccionarRestauranteAdmin());
+            DTO.UsuarioDTO dueno = ControlOperaciones.getInstancia().iniciarSesionAdmin(usuario, contrasena);
+
+            // Buscar el restaurante cuyo nombre coincide con el del dueño
+            String nombreRestaurante = dueno.getNombre();
+            DTO.RestauranteDTO restaurante = ControlOperaciones.getInstancia()
+                .obtenerTodosLosRestaurantes().stream()
+                .filter(r -> r.getNombre().equalsIgnoreCase(nombreRestaurante))
+                .findFirst().orElse(null);
+
+            if (restaurante == null) {
+                JOptionPane.showMessageDialog(this, "No se encontró el restaurante asociado.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            new Navegador().ir(this, new PanelAdmin(restaurante.getId(), restaurante.getNombre()));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Acceso denegado", JOptionPane.ERROR_MESSAGE);
         }
