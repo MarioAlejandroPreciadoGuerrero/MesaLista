@@ -18,7 +18,7 @@ public class InicioSesion extends JFrame {
     public InicioSesion() {
         setTitle("MesaLista - Iniciar Sesión");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(460, 380);
+        setSize(460, 440);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         setResizable(false);
@@ -102,6 +102,24 @@ public class InicioSesion extends JFrame {
         body.add(sep);
         body.add(Box.createVerticalStrut(14));
         body.add(btnRegistrar);
+
+        JSeparator sep2 = new JSeparator();
+        sep2.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
+        sep2.setForeground(new Color(229, 224, 216));
+        body.add(Box.createVerticalStrut(14));
+        body.add(sep2);
+        body.add(Box.createVerticalStrut(14));
+
+        JButton btnAdmin = new JButton("¿Dueño de restaurante? Administra aquí");
+        btnAdmin.setContentAreaFilled(false);
+        btnAdmin.setBorderPainted(false);
+        btnAdmin.setForeground(new Color(100, 100, 100));
+        btnAdmin.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        btnAdmin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnAdmin.setAlignmentX(Component.LEFT_ALIGNMENT);
+        btnAdmin.addActionListener(e -> new Navegador().ir(this, new SeleccionarRestauranteAdmin()));
+        body.add(btnAdmin);
+
         return body;
     }
 

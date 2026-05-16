@@ -4,6 +4,8 @@
  */
 package Control;
 
+import DTO.AreaDTO;
+import DTO.MenuDTO;
 import DTO.ReservacionDTO;
 import DTO.RestauranteDTO;
 import DTO.UsuarioDTO;
@@ -85,6 +87,20 @@ public class ControlOperaciones {
 
     public List<RestauranteDTO> obtenerTodosLosRestaurantes() {
         return restaurantesFacade.obtenerTodosLosRestaurantes();
+    }
+
+    public void actualizarAreasRestaurante(String restauranteId, List<AreaDTO> areas) throws Exception {
+        RestauranteDTO restaurante = restaurantesFacade.consultarRestaurante(restauranteId);
+        if (restaurante == null) throw new Exception("No se encontró el restaurante.");
+        restaurante.setAreas(areas);
+        restaurantesFacade.actualizarRestaurante(restaurante);
+    }
+
+    public void actualizarMenuRestaurante(String restauranteId, MenuDTO menu) throws Exception {
+        RestauranteDTO restaurante = restaurantesFacade.consultarRestaurante(restauranteId);
+        if (restaurante == null) throw new Exception("No se encontró el restaurante.");
+        restaurante.setMenu(menu);
+        restaurantesFacade.actualizarRestaurante(restaurante);
     }
     
     public List<ReservacionDTO> obtenerHistorialReservaciones(String usuarioId) {
