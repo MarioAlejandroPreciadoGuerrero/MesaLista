@@ -30,15 +30,15 @@ public class PagosFacade implements IPagosFacade {
             return;
         }
 
-        // 1. Intentar cobrar. Ahora retorna un String (El ID real de PayPal)
+        
         String transaccionId = pasarelaPago.procesarCobro(venta.getMontoTotal(), "Pago de Reservacion ID: " + venta.getReservacionId());
 
-        // 2. Si falló (es null), detenemos el proceso.
+        
         if (transaccionId == null) {
             throw new RuntimeException("El pago fue declinado por la pasarela externa.");
         }
 
-        // 3. Si tuvo éxito, asignamos el ID de PayPal al DTO y lo guardamos en nuestra BD.
+        
         venta.setTransaccionExternaId(transaccionId);
         repository.guardar(venta);
     }
@@ -57,20 +57,20 @@ public class PagosFacade implements IPagosFacade {
             return;
         }
 
-        // 1. Buscamos la venta en nuestra base de datos
+       
         VentaDTO venta = repository.buscarPorId(id);
         if (venta == null || venta.getTransaccionExternaId() == null) {
             return;
         }
 
-        // 2. Pedimos a PayPal que haga el reembolso usando el ID que habíamos guardado
+        
         boolean reembolsoExitoso = pasarelaPago.procesarReembolso(venta.getTransaccionExternaId());
 
         if (!reembolsoExitoso) {
             throw new RuntimeException("No se pudo procesar el reembolso en la pasarela externa.");
         }
 
-        // 3. Si el reembolso en PayPal tuvo éxito, eliminamos la venta de nuestra BD.
+        
         repository.eliminar(id);
     }
 }

@@ -50,7 +50,7 @@ public class PayPalAdapter implements IPasarelaPago {
             OrdersCreateRequest request = new OrdersCreateRequest().requestBody(orderRequest);
             HttpResponse<Order> response = client.execute(request);
             if (response.statusCode() == 201) {
-                return response.result().id(); // Retorna el ID de PayPal
+                return response.result().id(); 
             }
         } catch (Exception e) {
             return null;
